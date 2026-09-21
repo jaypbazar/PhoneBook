@@ -2,7 +2,9 @@ import 'PhoneBook.dart';
 
 main() {
   PhoneBook phoneBook = PhoneBook();
+  int? index;
 
   phoneBook.populateSampleContacts();
-  phoneBook.displayContacts();
+  index = phoneBook.displayContacts();
+  phoneBook.viewContactDetails(index - 1);
 }

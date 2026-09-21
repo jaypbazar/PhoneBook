@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io';
 import 'Contact.dart';
 
 class PhoneBook {
@@ -25,15 +26,37 @@ class PhoneBook {
     _contacts!.add(newContact);
   }
 
-  displayContacts() {
+  int displayContacts() {
     if (_contacts == null || _contacts!.isEmpty) {
       print("No contacts available.");
-      return;
+      return 0;
     }
 
+    print("\n=================== Contact List ===================");
     for (var contact in _contacts!) {
       print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");
     }
+    print("====================================================\n");
+
+    stdout.write("Enter the count number of the contact to view details (or 0 to exit): ");
+    return int.parse(stdin.readLineSync() ?? "0");
+  }
+
+  viewContactDetails(int index) {
+    if (_contacts == null || index < 0 || index >= _contacts!.length) {
+      print("Invalid contact index.");
+      return;
+    }
+
+    Contact contact = _contacts![index];
+    print("\n=================== Contact Details ===================");
+    print("Name: \t\t\t\t${contact.name}");
+    print("Phone Number: \t\t\t${contact.phoneNumber}");
+    print("Nickname: \t\t\t${contact.nickname ?? 'N/A'}");
+    print("Secondary Phone Number: \t${contact.secondaryPhoneNumber ?? 'N/A'}");
+    print("Email: \t\t\t\t${contact.email ?? 'N/A'}");
+    print("Notes: \t\t\t\t${contact.notes ?? 'N/A'}");
+    print("======================================================\n");
   }
 
   void populateSampleContacts() {
@@ -43,29 +66,29 @@ class PhoneBook {
         'phoneNumber': '+1-555-0198',
         'nickname': 'Johnny',
         'email': 'john.doe@example.com',
-        'notes': 'Colleague from work.'
+        'notes': 'Colleague from work.',
       },
       {
         'name': 'Jane Smith',
         'phoneNumber': '+1-555-0143',
-        'email': 'jane.smith@example.com'
+        'email': 'jane.smith@example.com',
       },
       {
         'name': 'Bob Johnson',
         'phoneNumber': '+1-555-0177',
         'secondaryPhoneNumber': '+1-555-0178',
-        'notes': 'Landlord.'
+        'notes': 'Landlord.',
       },
       {
         'name': 'Alice Williams',
         'phoneNumber': '+1-555-0122',
         'nickname': 'Al',
-        'email': 'alice.w@example.com'
+        'email': 'alice.w@example.com',
       },
       {
         'name': 'Charlie Brown',
         'phoneNumber': '+1-555-0155',
-        'notes': 'Gym buddy.'
+        'notes': 'Gym buddy.',
       },
     ];
 
@@ -80,5 +103,4 @@ class PhoneBook {
       );
     }
   }
-  
 }
