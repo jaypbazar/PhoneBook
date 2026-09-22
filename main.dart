@@ -1,5 +1,7 @@
-import 'PhoneBook.dart';
 import 'dart:io';
+
+import 'PhoneBook.dart';
+import 'InputHandler.dart';
 
 main() {
   PhoneBook phoneBook = PhoneBook();
@@ -11,16 +13,20 @@ main() {
     stdout.write('\x1B[2J\x1B[H'); // clear the console screen
 
     print("=================== Welcome to the Phone Book Application ==================");
+    print("0. Exit");
     print("1. Display all contacts");
     print("2. View contact details");
-    print("3. Search for a contact by name");
-    print("4. Search for a contact by nickname");
-    print("5. Exit");
+    print("3. Add a new contact");
+    print("4. Search for a contact by name");
+    print("5. Search for a contact by nickname");
   
     stdout.write("What would you like to do? (choose a number): ");
     choice = stdin.readLineSync();
-
+  
     switch (choice) {
+      case '0':
+        print("Exiting the application. Goodbye!");
+        exit(0);
       case '1':
         phoneBook.displayContacts();
         break;
@@ -29,16 +35,60 @@ main() {
         phoneBook.viewContactDetails();
         break;
       case '3':
+        String name = getUserInput(
+          prompt: "Enter the name of the new contact: ",
+          isValid: (input) => input != null && input.trim().isNotEmpty,
+          errorMessage: "Name cannot be empty. Please enter a valid name."
+        ) ?? "";
+        
+        String phoneNumber = getUserInput(
+          prompt: "Enter the phone number of the new contact: ",
+          isValid: (input) => input != null && input.trim().isNotEmpty,
+          errorMessage: "Phone number cannot be empty. Please enter a valid phone number."
+        ) ?? "";
+        
+        String? nickname = getUserInput(
+          prompt: "Enter the nickname of the new contact (optional): ",
+          isValid: (input) => input == null || input.trim().isNotEmpty,
+          errorMessage: "Nickname cannot be empty. Please enter a valid nickname."
+        );
+        
+        String? secondaryPhoneNumber = getUserInput(
+          prompt: "Enter the secondary phone number of the new contact (optional): ",
+          isValid: (input) => input == null || input.trim().isNotEmpty,
+          errorMessage: "Secondary phone number cannot be empty. Please enter a valid phone number."
+        );
+        
+        String? email = getUserInput(
+          prompt: "Enter the email of the new contact (optional): ",
+          isValid: (input) => input == null || input.trim().isNotEmpty,
+          errorMessage: "Email cannot be empty. Please enter a valid email."
+        );
+        
+        String? notes = getUserInput(
+          prompt: "Enter any notes for the new contact (optional): ",
+          isValid: (input) => input == null || input.trim().isNotEmpty,
+          errorMessage: "Notes cannot be empty. Please enter valid notes."
+        );
+
+        phoneBook.addContact(
+          name: name, 
+          phoneNumber: phoneNumber, 
+          nickname: nickname, 
+          secondaryPhoneNumber: secondaryPhoneNumber, 
+          email: email, 
+          notes: notes
+        );
+        print("Contact added successfully!");
+        break;
+      case '4':
         stdout.write("Enter the name of the contact to search: ");
         phoneBook.findByName(stdin.readLineSync() ?? "");
         break;
-      case '4':
+      case '5':
         stdout.write("Enter the nickname of the contact to search: ");
         phoneBook.findByNickName(stdin.readLineSync() ?? "");
         break;
-      case '5':
-        print("Exiting the application. Goodbye!");
-        exit(0);
       default:
         print("Invalid choice. Please select a valid option.");
     }
