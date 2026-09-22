@@ -37,38 +37,36 @@ main() {
       case '3':
         String name = getUserInput(
           prompt: "Enter the name of the new contact: ",
-          isValid: (input) => input != null && input.trim().isNotEmpty,
-          errorMessage: "Name cannot be empty. Please enter a valid name."
+          isValid: (input) => input != null,
+          errorMessage: "Name cannot be empty."
         ) ?? "";
         
         String phoneNumber = getUserInput(
           prompt: "Enter the phone number of the new contact: ",
-          isValid: (input) => input != null && input.trim().isNotEmpty,
-          errorMessage: "Phone number cannot be empty. Please enter a valid phone number."
+          isValid: (input) => input != null && input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$')),
+          errorMessage: "Please enter a valid phone number."
         ) ?? "";
         
         String? nickname = getUserInput(
           prompt: "Enter the nickname of the new contact (optional): ",
-          isValid: (input) => input == null || input.trim().isNotEmpty,
-          errorMessage: "Nickname cannot be empty. Please enter a valid nickname."
+          isValid: (input) => input == null || input.isNotEmpty
         );
         
         String? secondaryPhoneNumber = getUserInput(
           prompt: "Enter the secondary phone number of the new contact (optional): ",
-          isValid: (input) => input == null || input.trim().isNotEmpty,
-          errorMessage: "Secondary phone number cannot be empty. Please enter a valid phone number."
+          isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$'))),
+          errorMessage: "Please enter a valid phone number."
         );
         
         String? email = getUserInput(
           prompt: "Enter the email of the new contact (optional): ",
-          isValid: (input) => input == null || input.trim().isNotEmpty,
-          errorMessage: "Email cannot be empty. Please enter a valid email."
+          isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))),
+          errorMessage: "Please enter a valid email."
         );
         
         String? notes = getUserInput(
           prompt: "Enter any notes for the new contact (optional): ",
-          isValid: (input) => input == null || input.trim().isNotEmpty,
-          errorMessage: "Notes cannot be empty. Please enter valid notes."
+          isValid: (input) => input == null || input.isNotEmpty
         );
 
         phoneBook.addContact(
