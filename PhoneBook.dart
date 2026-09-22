@@ -59,6 +59,26 @@ class PhoneBook {
     print("======================================================\n");
   }
 
+  findByName(String name) {
+    if (_contacts == null || _contacts!.isEmpty) {
+      print("No contacts available.");
+      return;
+    }
+
+    List<Contact> foundContacts = _contacts!.where((contact) => contact.name.toLowerCase().contains(name.toLowerCase())).toList();
+
+    if (foundContacts.isEmpty) {
+      print("No contacts found with the name '$name'.");
+      return;
+    }
+
+    print("\n=================== Search Results ===================");
+    for (var contact in foundContacts) {
+      print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");
+    }
+    print("======================================================\n");
+  }
+
   void populateSampleContacts() {
     final List<Map<String, String>> samples = [
       {
