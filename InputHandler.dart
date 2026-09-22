@@ -9,6 +9,6 @@ String? getUserInput({required String prompt, required bool Function(String?) is
     return cleanedInput;
   }
   
-  print(errorMessage);
+  print('\n$errorMessage');
   return getUserInput(prompt: prompt, isValid: isValid, errorMessage: errorMessage);
 }

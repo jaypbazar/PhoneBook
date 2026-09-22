@@ -25,7 +25,7 @@ main() {
   
     switch (choice) {
       case '0':
-        print("Exiting the application. Goodbye!");
+        print("\nExiting the application. Goodbye!\n");
         exit(0);
       case '1':
         phoneBook.displayContacts();
@@ -88,10 +88,10 @@ main() {
         phoneBook.findByNickName(stdin.readLineSync() ?? "");
         break;
       default:
-        print("Invalid choice. Please select a valid option.");
+        print("\nInvalid choice. Please select a valid option.");
     }
 
-    stdout.write('Press [Enter] to continue...');
+    stdout.write('\nPress [Enter] to continue...');
     stdin.readLineSync(); // Wait for user input before clearing the screen and showing the menu again
   }
 }
