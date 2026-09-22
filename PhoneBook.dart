@@ -60,6 +60,11 @@ class PhoneBook {
   }
 
   findByName(String name) {
+    if (name.isEmpty) {
+      print("No name entered. Returning to main menu.");
+      return;
+    }
+    
     if (_contacts == null || _contacts!.isEmpty) {
       print("No contacts available.");
       return;
@@ -72,6 +77,31 @@ class PhoneBook {
       return;
     }
 
+    print("\n=================== Search Results ===================");
+    for (var contact in foundContacts) {
+      print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");
+    }
+    print("======================================================\n");
+  }
+
+  findByNickName(String nickname) {    
+    if (nickname.isEmpty) {
+      print("No name entered. Returning to main menu.");
+      return;
+    }
+
+    if (_contacts == null || _contacts!.isEmpty) {
+      print("No contacts available.");
+      return;
+    }
+
+    List<Contact> foundContacts = _contacts!.where((contact) => contact.nickname != null && contact.nickname!.toLowerCase().contains(nickname.toLowerCase())).toList();
+
+    if (foundContacts.isEmpty) {
+      print("No contacts found with the nickname '$nickname'.");
+      return;
+    }
+    
     print("\n=================== Search Results ===================");
     for (var contact in foundContacts) {
       print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");

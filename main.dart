@@ -15,7 +15,8 @@ main() {
     print("1. Display all contacts");
     print("2. View contact details");
     print("3. Search for a contact by name");
-    print("4. Exit");
+    print("4. Search for a contact by nickname");
+    print("5. Exit");
   
     stdout.write("What would you like to do? (choose a number): ");
     choice = stdin.readLineSync();
@@ -33,6 +34,10 @@ main() {
         phoneBook.findByName(stdin.readLineSync() ?? "");
         break;
       case '4':
+        stdout.write("Enter the nickname of the contact to search: ");
+        phoneBook.findByNickName(stdin.readLineSync() ?? "");
+        break;
+      case '5':
         print("Exiting the application. Goodbye!");
         exit(0);
       default:
