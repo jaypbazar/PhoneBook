@@ -7,7 +7,6 @@ main() {
 
   String? choice;
   
-  
   while (true) {
     stdout.write('\x1B[2J\x1B[H'); // clear the console screen
 
@@ -45,6 +44,6 @@ main() {
     }
 
     stdout.write('Press [Enter] to continue...');
-    stdin.readLineSync();
+    stdin.readLineSync(); // Wait for user input before clearing the screen and showing the menu again
   }
 }
