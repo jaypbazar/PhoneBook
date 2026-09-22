@@ -26,7 +26,7 @@ class PhoneBook {
     _contacts!.add(newContact);
   }
 
-  int displayContacts() {
+  displayContacts() {
     if (_contacts == null || _contacts!.isEmpty) {
       print("No contacts available.");
       return 0;
@@ -37,12 +37,12 @@ class PhoneBook {
       print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");
     }
     print("====================================================\n");
-
-    stdout.write("Enter the count number of the contact to view details (or 0 to exit): ");
-    return int.parse(stdin.readLineSync() ?? "0");
   }
 
-  viewContactDetails(int index) {
+  viewContactDetails() {
+    stdout.write("Enter the count number of the contact to view details (or 0 to exit): ");
+    int index = int.parse(stdin.readLineSync() ?? "0")-1;
+
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("Invalid contact index.");
       return;
