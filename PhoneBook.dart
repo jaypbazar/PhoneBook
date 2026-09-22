@@ -43,6 +43,11 @@ class PhoneBook {
     stdout.write("Enter the count number of the contact to view details (or 0 to exit): ");
     int index = int.parse(stdin.readLineSync() ?? "0")-1;
 
+    if (index == -1) {
+      print("Exiting contact details view.");
+      return;
+    }
+
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("Invalid contact index.");
       return;
