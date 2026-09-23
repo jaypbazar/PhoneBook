@@ -1,6 +1,7 @@
 import 'dart:math';
-import 'dart:io';
 import 'Contact.dart';
+
+import 'InputHandler.dart';
 
 class PhoneBook {
   List<Contact>? _contacts;
@@ -36,20 +37,22 @@ class PhoneBook {
     for (var contact in _contacts!) {
       print("${_contacts!.indexOf(contact)+1}. ${contact.name} - ${contact.phoneNumber}");
     }
-    print("====================================================\n");
+    print("====================================================");
   }
 
   viewContactDetails() {
-    stdout.write("Enter the count number of the contact to view details (or 0 to exit): ");
-    int index = int.parse(stdin.readLineSync() ?? "0")-1;
+    int index = int.parse(getUserInput(
+        prompt: "\nEnter the count number of the contact to view details (or 0 to exit): ", 
+        isValid: (input) => input != null && int.tryParse(input) != null) ?? "0"
+    )-1;
 
     if (index == -1) {
-      print("Exiting contact details view.");
+      print("\nExiting contact details view.");
       return;
     }
 
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
-      print("Invalid contact index.");
+      print("\nInvalid contact index.");
       return;
     }
 
