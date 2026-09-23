@@ -13,18 +13,25 @@ class PhoneBook {
     return "U-" + timestamp.toString() + "-" + randomNum.toString();
   }
 
-  addContact({required String name, required String phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
-    Contact newContact = Contact();
-    newContact.id = generateUniqueId();
-    newContact.name = name;
-    newContact.phoneNumber = phoneNumber;
-    newContact.nickname = nickname;
-    newContact.secondaryPhoneNumber = secondaryPhoneNumber;
-    newContact.email = email;
-    newContact.notes = notes;
+  bool addContact({required String name, required String phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
+    try {
+      Contact newContact = Contact();
+      newContact.id = generateUniqueId();
+      newContact.name = name;
+      newContact.phoneNumber = phoneNumber;
+      newContact.nickname = nickname;
+      newContact.secondaryPhoneNumber = secondaryPhoneNumber;
+      newContact.email = email;
+      newContact.notes = notes;
 
-    _contacts ??= [];
-    _contacts!.add(newContact);
+      _contacts ??= [];
+      _contacts!.add(newContact);
+      return true;
+    }
+    catch (e) {
+      print("Error adding contact: $e");
+      return false;
+    }
   }
 
   displayContacts() {
@@ -40,17 +47,7 @@ class PhoneBook {
     print("====================================================");
   }
 
-  viewContactDetails() {
-    int index = int.parse(getUserInput(
-        prompt: "\nEnter the count number of the contact to view details (or 0 to exit): ", 
-        isValid: (input) => input != null && int.tryParse(input) != null) ?? "0"
-    )-1;
-
-    if (index == -1) {
-      print("\nExiting contact details view.");
-      return;
-    }
-
+  viewContactDetails(int index) {
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("\nInvalid contact index.");
       return;
@@ -64,7 +61,24 @@ class PhoneBook {
     print("Secondary Phone Number: \t${contact.secondaryPhoneNumber ?? 'N/A'}");
     print("Email: \t\t\t\t${contact.email ?? 'N/A'}");
     print("Notes: \t\t\t\t${contact.notes ?? 'N/A'}");
-    print("======================================================\n");
+    print("======================================================");
+  }
+
+  bool updateContact({required int index, String? name, String? phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
+    if (_contacts == null || index < 0 || index >= _contacts!.length) {
+      print("Invalid contact index.");
+      return false;
+    }
+
+    Contact contact = _contacts![index];
+    if (name != null) contact.name = name;
+    if (phoneNumber != null) contact.phoneNumber = phoneNumber;
+    if (nickname != null) contact.nickname = nickname;
+    if (secondaryPhoneNumber != null) contact.secondaryPhoneNumber = secondaryPhoneNumber;
+    if (email != null) contact.email = email;
+    if (notes != null) contact.notes = notes;
+
+    return true;
   }
 
   findByName(String name) {
