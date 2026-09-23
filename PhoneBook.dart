@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'Contact.dart';
 
-import 'InputHandler.dart';
-
 class PhoneBook {
   List<Contact>? _contacts;
 
