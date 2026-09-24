@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'Contact.dart';
 
 class PhoneBook {
@@ -62,6 +63,13 @@ class PhoneBook {
     print("======================================================");
   }
 
+  String getCurrentContactName(int index) {
+    if (_contacts == null || index < 0 || index >= _contacts!.length) {
+      return "Invalid contact index.";
+    }
+    return _contacts![index].name;
+  }
+
   bool updateContact({required int index, String? name, String? phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("Invalid contact index.");
@@ -75,6 +83,17 @@ class PhoneBook {
     if (secondaryPhoneNumber != null) contact.secondaryPhoneNumber = secondaryPhoneNumber;
     if (email != null) contact.email = email;
     if (notes != null) contact.notes = notes;
+
+    return true;
+  }
+
+  bool removeContact(int index) {
+    if (_contacts == null || index < 0 || index >= _contacts!.length) {
+      print("Invalid contact index.");
+      return false;
+    }
+
+    _contacts!.removeAt(index);
 
     return true;
   }

@@ -45,51 +45,79 @@ main() {
         phoneBook.viewContactDetails(index);
 
         choice = getUserInput(
-          prompt: "\nWould you like to edit this contact? (y/n): ",
-          isValid: (input) => input != null && (input.toLowerCase() == 'y' || input.toLowerCase() == 'n'),
-          errorMessage: "Please enter 'y' or 'n'."
+          prompt: "\nEnter 'e' to edit, 'd' to delete, or 'x' to go back: ",
+          isValid: (input) => input != null && (input.toLowerCase() == 'e' || input.toLowerCase() == 'd' || input.toLowerCase() == 'x'),
+          errorMessage: "Please enter a valid option."
         );
 
-        if (choice != null && choice.toLowerCase() == 'y') {
-          String? name = getUserInput(
-            prompt: "Enter the new name of the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || input.isNotEmpty
-          );
+        switch (choice?.toLowerCase()) {
+          case 'e':
+          print("\nEditing contact details. Enter nothing to keep a field unchanged.");
+            String? name = getUserInput(
+              prompt: "Enter the new name: ",
+              isValid: (input) => input == null || input.isNotEmpty
+            );
 
-          String? phoneNumber = getUserInput(
-            prompt: "Enter the new phone number of the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$'))),
-            errorMessage: "Please enter a valid phone number."
-          );
+            String? phoneNumber = getUserInput(
+              prompt: "Enter the new phone number: ",
+              isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$'))),
+              errorMessage: "Please enter a valid phone number."
+            );
 
-          String? nickname = getUserInput(
-            prompt: "Enter the new nickname of the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || input.isNotEmpty
-          );
+            String? nickname = getUserInput(
+              prompt: "Enter the new nickname: ",
+              isValid: (input) => input == null || input.isNotEmpty
+            );
 
-          String? secondaryPhoneNumber = getUserInput(
-            prompt: "Enter the new secondary phone number of the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$'))),
-            errorMessage: "Please enter a valid phone number."
-          );
+            String? secondaryPhoneNumber = getUserInput(
+              prompt: "Enter the new secondary phone number: ",
+              isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^\+?[0-9\s\-\(\)]+$'))),
+              errorMessage: "Please enter a valid phone number."
+            );
 
-          String? email = getUserInput(
-            prompt: "Enter the new email of the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))),
-            errorMessage: "Please enter a valid email."
-          );
+            String? email = getUserInput(
+              prompt: "Enter the new email: ",
+              isValid: (input) => input == null || (input.isNotEmpty && input.contains(RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))),
+              errorMessage: "Please enter a valid email."
+            );
 
-          String? notes = getUserInput(
-            prompt: "Enter any new notes for the contact (or press Enter to keep it unchanged): ",
-            isValid: (input) => input == null || input.isNotEmpty
-          );
-      
-          if (phoneBook.updateContact(index: index, name: name, phoneNumber: phoneNumber, nickname: nickname, secondaryPhoneNumber: secondaryPhoneNumber, email: email, notes: notes)) {
-            print("Contact updated successfully.");
-          } 
-          else {
-            print("Failed to update contact.");
-          }
+            String? notes = getUserInput(
+              prompt: "Enter any new notes: ",
+              isValid: (input) => input == null || input.isNotEmpty
+            );
+
+            if (phoneBook.updateContact(index: index, name: name, phoneNumber: phoneNumber, nickname: nickname, secondaryPhoneNumber: secondaryPhoneNumber, email: email, notes: notes)) {
+              print("\nContact updated successfully.");
+            } 
+            else {
+              print("\nFailed to update contact.");
+            }
+            break;
+            
+          case 'd':
+            String confirmation = getUserInput(
+              prompt: "\nAre you sure you want to delete ${phoneBook.getCurrentContactName(index)}? (y/n): ",
+              isValid: (input) => input != null && (input.toLowerCase() == 'y' || input.toLowerCase() == 'n'),
+              errorMessage: "Please enter 'y' or 'n' only.",
+            ) ?? "n";
+
+            if (confirmation.toLowerCase() == 'y') {
+              if (phoneBook.removeContact(index)) {
+                print("\nContact deleted successfully.");
+              } else {
+                print("\nFailed to delete contact.");
+              }
+            } else {
+              print("\nDeletion cancelled.");
+            }
+            break;
+
+          case 'x':
+            print("\nExiting contact details view.");
+            break;
+
+          default:
+            print("\nInvalid choice. Returning to main menu.");
         }
         break;
       case '3':
