@@ -12,6 +12,10 @@ class PhoneBook {
     return "U-" + timestamp.toString() + "-" + randomNum.toString();
   }
 
+  int getContactsCount() {
+    return _contacts?.length ?? 0;
+  }
+
   bool addContact({required String name, required String phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
     try {
       Contact newContact = Contact();
@@ -47,11 +51,6 @@ class PhoneBook {
   }
 
   viewContactDetails(int index) {
-    if (_contacts == null || index < 0 || index >= _contacts!.length) {
-      print("\nInvalid contact index.");
-      return;
-    }
-
     Contact contact = _contacts![index];
     print("\n=================== Contact Details ===================");
     print("Name: \t\t\t\t${contact.name}");

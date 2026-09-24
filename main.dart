@@ -38,8 +38,8 @@ main() {
             isValid: (input) => input != null && int.tryParse(input) != null) ?? "0"
         )-1;
         
-        if (index == -1) {
-          print("\nExiting contact details view.");
+        if (index < 0 || index >= phoneBook.getContactsCount()) {
+          print("\n${index != -1 ? "Invalid contact index. ": ""}Exiting contact details view.");
           break;
         }
         phoneBook.viewContactDetails(index);
