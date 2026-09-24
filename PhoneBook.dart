@@ -3,8 +3,26 @@ import 'dart:math';
 import 'Contact.dart';
 
 class PhoneBook {
+  /// A class to manage a phone book with a list of contacts.
+  /// 
+  /// Attribute:
+  /// _contacts: A list of Contact objects representing the contacts in the phone book.
+  /// 
+  /// Methods:
+  /// - generateUniqueId(): Generates a unique ID for a new contact.
+  /// - getContactsCount(): Returns the number of contacts in the phone book.
+  /// - addContact(): Adds a new contact to the phone book.
+  /// - displayContacts(): Displays a list of all contacts in the phone book.
+  /// - viewContactDetails(): Displays the details of a specific contact.
+  /// - getCurrentContactName(): Returns the name of a contact at a given index.
+  /// - updateContact(): Updates the details of a specific contact.
+  /// - removeContact(): Removes a contact from the phone book.
+  /// - findByName(): Searches for contacts by name and displays the results.
+  /// - findByNickName(): Searches for contacts by nickname and displays the results.
+
   List<Contact>? _contacts;
 
+  /// Generates a unique ID for a new contact by combining the current timestamp and a random number.
   String generateUniqueId() {
     final int randomNum = Random().nextInt(1000);
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -12,10 +30,13 @@ class PhoneBook {
     return "U-" + timestamp.toString() + "-" + randomNum.toString();
   }
 
+  /// Returns the number of contacts in the phone book.
   int getContactsCount() {
     return _contacts?.length ?? 0;
   }
 
+  /// Adds a new contact to the phone book with the provided details.
+  /// Returns true if the contact was added successfully, false otherwise.
   bool addContact({required String name, required String phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
     try {
       Contact newContact = Contact();
@@ -37,6 +58,7 @@ class PhoneBook {
     }
   }
 
+  /// Displays a list of all contacts in the phone book.
   displayContacts() {
     if (_contacts == null || _contacts!.isEmpty) {
       print("No contacts available.");
@@ -50,6 +72,7 @@ class PhoneBook {
     print("====================================================");
   }
 
+  /// Displays the details of a specific contact.
   viewContactDetails(int index) {
     Contact contact = _contacts![index];
     print("\n=================== Contact Details ===================");
@@ -62,6 +85,7 @@ class PhoneBook {
     print("======================================================");
   }
 
+  /// Returns the name of a contact at a given index. If the index is invalid, returns an error message.
   String getCurrentContactName(int index) {
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       return "Invalid contact index.";
@@ -69,6 +93,8 @@ class PhoneBook {
     return _contacts![index].name;
   }
 
+  /// Updates the details of a specific contact at the given index.
+  /// Returns true if the contact was updated successfully, false otherwise.
   bool updateContact({required int index, String? name, String? phoneNumber, String? nickname, String? secondaryPhoneNumber, String? email, String? notes}) {
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("Invalid contact index.");
@@ -86,6 +112,8 @@ class PhoneBook {
     return true;
   }
 
+  /// Removes a contact from the phone book at the given index.
+  /// Returns true if the contact was removed successfully, false otherwise.
   bool removeContact(int index) {
     if (_contacts == null || index < 0 || index >= _contacts!.length) {
       print("Invalid contact index.");
@@ -97,6 +125,7 @@ class PhoneBook {
     return true;
   }
 
+  /// Searches for contacts by name and displays the results.
   findByName(String name) {
     if (name.isEmpty) {
       print("No name entered. Returning to main menu.");
@@ -122,6 +151,7 @@ class PhoneBook {
     print("======================================================\n");
   }
 
+  /// Searches for contacts by nickname and displays the results.
   findByNickName(String nickname) {    
     if (nickname.isEmpty) {
       print("No name entered. Returning to main menu.");
@@ -147,6 +177,8 @@ class PhoneBook {
     print("======================================================\n");
   }
 
+  /// Sample method to populate the phone book with some initial contacts for testing purposes. 
+  /// NOTE: Delete this method after implementing data persistence.
   void populateSampleContacts() {
     final List<Map<String, String>> samples = [
       {
