@@ -188,7 +188,7 @@ class PhoneBook {
     Contact contact2 = _contacts![index2];
 
     if (contact1.name.toLowerCase() != contact2.name.toLowerCase()) {
-      print("Contacts have different names and cannot be merged.");
+      print("\nContacts have different names and cannot be merged.");
       return false;
     }
 

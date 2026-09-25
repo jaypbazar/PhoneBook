@@ -21,7 +21,7 @@ main() {
     print("5. Search for a contact by nickname");
     print("6. Merge contacts with the same name");
   
-    stdout.write("What would you like to do? (choose a number): ");
+    stdout.write("\nWhat would you like to do? (choose a number): ");
     choice = stdin.readLineSync();
   
     switch (choice) {
