@@ -177,6 +177,36 @@ class PhoneBook {
     print("======================================================\n");
   }
 
+  /// Merges two contacts with the same name into one contact. Index 1 is the dominant contact while index 2 is the one to be merged and deleted.
+  bool mergeContacts(int index1, int index2) {
+    if (_contacts == null || index1 < 0 || index1 >= _contacts!.length || index2 < 0 || index2 >= _contacts!.length) {
+      print("Invalid contact indices.");
+      return false;
+    }
+
+    Contact contact1 = _contacts![index1];
+    Contact contact2 = _contacts![index2];
+
+    if (contact1.name.toLowerCase() != contact2.name.toLowerCase()) {
+      print("Contacts have different names and cannot be merged.");
+      return false;
+    }
+
+    contact1.nickname = contact1.nickname ?? contact2.nickname;
+    
+    if (contact1.secondaryPhoneNumber == null && contact2.phoneNumber.isNotEmpty) {
+      // Preserve contact 2's phone number by adding it as a secondary phone number if contact1 doesn't have one
+      contact1.secondaryPhoneNumber = contact2.phoneNumber;
+    }
+    contact1.email = contact1.email ?? contact2.email;
+    contact1.notes = contact1.notes ?? contact2.notes;
+
+    // Remove contact2 from the list
+    _contacts!.removeAt(index2);
+
+    return true;
+  }
+
   /// Sample method to populate the phone book with some initial contacts for testing purposes. 
   /// NOTE: Delete this method after implementing data persistence.
   void populateSampleContacts() {

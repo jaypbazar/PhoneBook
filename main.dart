@@ -19,6 +19,7 @@ main() {
     print("3. Add a new contact");
     print("4. Search for a contact by name");
     print("5. Search for a contact by nickname");
+    print("6. Merge contacts with the same name");
   
     stdout.write("What would you like to do? (choose a number): ");
     choice = stdin.readLineSync();
@@ -156,9 +157,9 @@ main() {
         );
 
         if (phoneBook.addContact(name: name, phoneNumber: phoneNumber, nickname: nickname, secondaryPhoneNumber: secondaryPhoneNumber, email: email, notes: notes)){
-          print("Contact added successfully!");
+          print("\nContact added successfully!");
         } else {
-          print("Failed to add contact.");
+          print("\nFailed to add contact.");
         }
         break;
       case '4':
@@ -168,6 +169,35 @@ main() {
       case '5':
         stdout.write("Enter the nickname of the contact to search: ");
         phoneBook.findByNickName(stdin.readLineSync() ?? "");
+        break;
+      case '6':
+        phoneBook.displayContacts();
+        print("\nSelect the contacts to merge (contact 2 will be overwritten and deleted). Contacts must have the same name to be merged.");
+        int index1 = int.parse(getUserInput(
+            prompt: "\nEnter the count number of the first contact (or 0 to exit): ", 
+            isValid: (input) => input != null && int.tryParse(input) != null) ?? "0"
+        )-1;
+
+        if (index1 < 0 || index1 >= phoneBook.getContactsCount()) {
+          print("\n${index1 != -1 ? "Invalid contact index. ": ""}Exiting merge contacts view.");
+          break;
+        }
+
+        int index2 = int.parse(getUserInput(
+            prompt: "\nEnter the count number of the second contact (or 0 to exit): ", 
+            isValid: (input) => input != null && int.tryParse(input) != null) ?? "0"
+        )-1;
+
+        if (index2 < 0 || index2 >= phoneBook.getContactsCount()) {
+          print("\n${index2 != -1 ? "Invalid contact index. ": ""}Exiting merge contacts view.");
+          break;
+        }
+
+        if (phoneBook.mergeContacts(index1, index2)) {
+          print("\nContacts merged successfully.");
+        } else {
+          print("\nFailed to merge contacts.");
+        }
         break;
       default:
         print("\nInvalid choice. Please select a valid option.");
